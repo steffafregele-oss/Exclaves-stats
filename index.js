@@ -30,7 +30,7 @@ function formatDuration(ms) {
   return `${hr}h ${min}m ${sec}s`;
 }
 
-// 4.1️⃣ Helper fetch cu timeout
+// Helper fetch cu timeout 10 sec
 async function fetchWithTimeout(url, options = {}, timeout = 10000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -49,9 +49,9 @@ async function fetchWithTimeout(url, options = {}, timeout = 10000) {
 // 5️⃣ Config Uptime Monitor
 let lastUpTime = null;
 let lastStatus = null;
-const STATUS_CHANNEL_ID = "1437881455534674001"; // canal de anunturi
+const STATUS_CHANNEL_ID = "1437881455534674001";
 const MAIN_SITE_URL = "https://www.logged.tg/auth/exclaves";
-const MAIN_SITE_NAME = "EXECLAVES";
+const MAIN_SITE_NAME = "EXCLAVES";
 
 // 5.1️⃣ Monitor site la fiecare 30 secunde
 setInterval(async () => {
@@ -76,22 +76,13 @@ setInterval(async () => {
       const channel = await client.channels.fetch(STATUS_CHANNEL_ID).catch(() => null);
       if (channel) {
         const embed = new EmbedBuilder()
-          .setColor(0x800080)
-          .setThumbnail("https://cdn.discordapp.com/emojis/1437165310775132160.gif")
-          .setDescription(
-            `-- <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> --\n\n` +
-            `<a:Animated_Arrow_Purple:1418940595782549636> **${MAIN_SITE_NAME}**\n` +
-            `<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${currentStatus}\n` +
-            `<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`
-          )
+          .setColor(currentStatus === "UP" ? 0x00FF00 : 0xFF0000)
+          .setThumbnail("https://cdn.discordapp.com/emojis/1418958212195156120.gif") // purple crown
+          .setDescription(`-- <a:breezy:1396413730757017692> **${MAIN_SITE_NAME} STATUS** <a:breezy:1396413730757017692> --\n\n<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${currentStatus}\n<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`)
           .setImage("https://i.imgur.com/bnuEGXF.gif")
-          .setFooter({ text: "Site Uptime Monitor" });
+          .setFooter({ text: "EXCLAVES Site Monitor" });
 
-        const statusMsg = currentStatus === "UP" 
-          ? "✅ The site is back **UP**!" 
-          : "⚠️ The site is **DOWN**!";
-
-        await channel.send({ content: statusMsg, embeds: [embed] });
+        await channel.send({ embeds: [embed] });
       }
       lastStatus = currentStatus;
     }
@@ -99,22 +90,16 @@ setInterval(async () => {
   } catch (err) { console.error("Error checking site:", err); }
 }, 30000);
 
-// 6️⃣ Event listener pentru mesaje
+// 6️⃣ Event listener pentru comenzi
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
-  // Extrage userul: mention sau ID direct după comandă
   let args = message.content.split(" ").slice(1);
   let targetUser;
   if (args[0]) {
-    try {
-      targetUser = await client.users.fetch(args[0]);
-    } catch {
-      targetUser = message.mentions.users.first() || message.author;
-    }
-  } else {
-    targetUser = message.mentions.users.first() || message.author;
-  }
+    try { targetUser = await client.users.fetch(args[0]); } 
+    catch { targetUser = message.mentions.users.first() || message.author; }
+  } else targetUser = message.mentions.users.first() || message.author;
   const targetId = targetUser.id;
 
   // ===== !stats =====
@@ -137,10 +122,7 @@ client.on('messageCreate', async (message) => {
 
       await message.channel.send({ embeds: [embed] });
 
-    } catch (err) {
-      console.error('Error fetching stats:', err);
-      message.reply("❌ Error fetching stats: site/API did not respond in 10 seconds.");
-    }
+    } catch (err) { console.error(err); message.reply("❌ Error fetching stats."); }
   }
 
   // ===== !daily =====
@@ -163,10 +145,7 @@ client.on('messageCreate', async (message) => {
 
       await message.channel.send({ embeds: [embed] });
 
-    } catch (err) {
-      console.error('Error fetching daily stats:', err);
-      message.reply("❌ Error fetching daily stats: site/API did not respond in 10 seconds.");
-    }
+    } catch (err) { console.error(err); message.reply("❌ Error fetching daily stats."); }
   }
 
   // ===== !check =====
@@ -176,31 +155,23 @@ client.on('messageCreate', async (message) => {
       let res, ping;
       try { 
         const response = await fetchWithTimeout(MAIN_SITE_URL, {}, 10000);
-        res = { ok: response.ok };
-        ping = Date.now() - start;
-      } catch {
-        res = { ok: false }; ping = null;
-      }
+        res = { ok: response.ok }; ping = Date.now() - start;
+      } catch { res = { ok: false }; ping = null; }
 
-      let statusText = res.ok ? "<a:Animated_Arrow_Purple:1418940595782549636> ONLINE" : "<a:Animated_Arrow_Purple:1418940595782549636> OFFLINE";
+      let statusText = res.ok ? "ONLINE" : "OFFLINE";
       let uptimeText = res.ok && lastUpTime ? `UP for ${formatDuration(Date.now() - lastUpTime)}` : "❌ No uptime data";
 
       const embed = new EmbedBuilder()
-        .setColor(0x800080)
-        .setThumbnail("https://cdn.discordapp.com/emojis/1418958212195156120.gif")
-        .setDescription(`-- <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> --\n\n<a:Animated_Arrow_Purple:1418940595782549636> **${MAIN_SITE_NAME}**\n<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${statusText}\n<a:Animated_Arrow_Purple:1418940595782549636> UPTIME: ${uptimeText}\n<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`)
+        .setColor(res.ok ? 0x00FF00 : 0xFF0000)
+        .setThumbnail("https://cdn.discordapp.com/emojis/1418958212195156120.gif") // purple crown
+        .setDescription(`-- <a:breezy:1396413730757017692> **${MAIN_SITE_NAME} STATUS** <a:breezy:1396413730757017692> --\n\n<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${statusText}\n<a:Animated_Arrow_Purple:1418940595782549636> UPTIME: ${uptimeText}\n<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`)
         .setImage("https://i.imgur.com/bnuEGXF.gif")
         .setFooter({ text: "EXCLAVES Site Monitor" });
 
-      const channel = await client.channels.fetch(STATUS_CHANNEL_ID).catch(() => null);
-      if(channel) await channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
 
-    } catch (err) {
-      console.error(err);
-      message.reply("❌ Error checking site: site/API did not respond in 10 seconds.");
-    }
+    } catch (err) { console.error(err); message.reply("❌ Error checking site."); }
   }
-
 });
 
 // 7️⃣ Error handler
