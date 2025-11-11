@@ -54,7 +54,7 @@ const MAIN_SITE_NAME = "EXCLAVES";
 // Funcție pentru embed status site
 async function sendStatusEmbed(channel, status, ping) {
   const embed = new EmbedBuilder()
-    .setColor(status === "UP" ? 0x00FF00 : 0xFF0000)
+    .setColor(0x800080) // Purple la toate embedurile
     .setThumbnail("https://cdn.discordapp.com/emojis/1418958212195156120.gif") // purple crown
     .setDescription(`-- <a:breezy:1396413730757017692> **${MAIN_SITE_NAME} STATUS** <a:breezy:1396413730757017692> --\n\n
 <a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${status}\n
@@ -107,7 +107,7 @@ client.on('messageCreate', async (message) => {
       const userName = profile.userName || targetUser.username;
 
       const embed = new EmbedBuilder()
-        .setColor(0x800080)
+        .setColor(0x800080) // Purple
         .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 128 }))
         .setDescription(`-- <a:breezy:1396413730757017692> **EXCLAVES STATS** <a:breezy:1396413730757017692> --\n\n
 <a:Animated_Arrow_Purple:1418940595782549636> **User:** ${userName}\n
@@ -138,7 +138,7 @@ client.on('messageCreate', async (message) => {
       const userName = profile.userName || targetUser.username;
 
       const embed = new EmbedBuilder()
-        .setColor(0x800080)
+        .setColor(0x800080) // Purple
         .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 128 }))
         .setDescription(`-- <a:breezy:1396413730757017692> **EXCLAVES DAILY** <a:breezy:1396413730757017692> --\n\n
 <a:Animated_Arrow_Purple:1418940595782549636> **User:** ${userName}\n
