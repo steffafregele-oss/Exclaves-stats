@@ -3,7 +3,7 @@ const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const express = require('express');
 
-// 2️⃣ Server Express pentru keep-alive (Render)
+// 2️⃣ Server Express pentru keep-alive
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.get("/", (req, res) => res.send("Bot is alive ✅"));
@@ -34,7 +34,7 @@ function formatDuration(ms) {
 let lastUpTime = null;
 let lastStatus = null;
 const STATUS_CHANNEL_ID = "1437881455534674001";
-const MAIN_SITE_URL = "https://www.logged.tg/auth/execlaves";
+const MAIN_SITE_URL = "https://www.logged.tg/auth/exclaves";
 const MAIN_SITE_NAME = "EXECLAVES";
 
 // 5.1️⃣ Monitor site la fiecare 30 secunde
@@ -87,7 +87,18 @@ setInterval(async () => {
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
-  const targetUser = message.mentions.users.first() || message.author;
+  // Extrage userul: mention sau ID direct după comandă
+  let args = message.content.split(" ").slice(1);
+  let targetUser;
+  if (args[0]) {
+    try {
+      targetUser = await client.users.fetch(args[0]);
+    } catch {
+      targetUser = message.mentions.users.first() || message.author;
+    }
+  } else {
+    targetUser = message.mentions.users.first() || message.author;
+  }
   const targetId = targetUser.id;
 
   // ===== !stats =====
