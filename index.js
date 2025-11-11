@@ -63,7 +63,7 @@ setInterval(async () => {
           .setColor(0x800080)
           .setThumbnail("https://cdn.discordapp.com/emojis/1437165310775132160.gif")
           .setDescription(
-            `─── <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> ───\n\n` +
+            `-- <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> --\n\n` +
             `<a:Animated_Arrow_Purple:1418940595782549636> **${MAIN_SITE_NAME}**\n` +
             `<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${currentStatus}\n` +
             `<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`
@@ -115,25 +115,7 @@ client.on('messageCreate', async (message) => {
       const embed = new EmbedBuilder()
         .setColor(0x800080)
         .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 128 }))
-        .setDescription(`─── <a:breezy:1396413730757017692> **EXCLAVES STATS** <a:breezy:1396413730757017692> ───
-
-<a:Animated_Arrow_Purple:1418940595782549636> **User:** **${userName}**
-
-<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL STATS:**
-Hits: ${formatNumber(normal.Totals?.Accounts)}
-Visits: ${formatNumber(normal.Totals?.Visits)}
-Clicks: ${formatNumber(normal.Totals?.Clicks)}
-
-<a:Animated_Arrow_Purple:1418940595782549636> **BIGGEST HIT:**
-Summary: ${formatNumber(normal.Highest?.Summary)}
-RAP: ${formatNumber(normal.Highest?.Rap)}
-Robux: ${formatNumber(normal.Highest?.Balance)}
-
-<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL HIT STATS:**
-Summary: ${formatNumber(normal.Totals?.Summary)}
-RAP: ${formatNumber(normal.Totals?.Rap)}
-Robux: ${formatNumber(normal.Totals?.Balance)}
-`)
+        .setDescription(`-- <a:breezy:1396413730757017692> **EXCLAVES STATS** <a:breezy:1396413730757017692> --\n\n<a:Animated_Arrow_Purple:1418940595782549636> **User:** **${userName}**\n\n<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL STATS:**\nHits: ${formatNumber(normal.Totals?.Accounts)}\nVisits: ${formatNumber(normal.Totals?.Visits)}\nClicks: ${formatNumber(normal.Totals?.Clicks)}\n\n<a:Animated_Arrow_Purple:1418940595782549636> **BIGGEST HIT:**\nSummary: ${formatNumber(normal.Highest?.Summary)}\nRAP: ${formatNumber(normal.Highest?.Rap)}\nRobux: ${formatNumber(normal.Highest?.Balance)}\n\n<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL HIT STATS:**\nSummary: ${formatNumber(normal.Totals?.Summary)}\nRAP: ${formatNumber(normal.Totals?.Rap)}\nRobux: ${formatNumber(normal.Totals?.Balance)}`)
         .setImage("https://i.imgur.com/bnuEGXF.gif")
         .setFooter({ text: "EXCLAVES Stats Bot" });
 
@@ -159,25 +141,7 @@ Robux: ${formatNumber(normal.Totals?.Balance)}
       const embed = new EmbedBuilder()
         .setColor(0x800080)
         .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 128 }))
-        .setDescription(`─── <a:breezy:1396413730757017692> **EXCLAVES DAILY** <a:breezy:1396413730757017692> ───
-
-<a:Animated_Arrow_Purple:1418940595782549636> **User:** **${userName}**
-
-<a:Animated_Arrow_Purple:1418940595782549636> **DAILY STATS:**
-Hits: ${formatNumber(daily.Totals?.Accounts)}
-Visits: ${formatNumber(daily.Totals?.Visits)}
-Clicks: ${formatNumber(daily.Totals?.Clicks)}
-
-<a:Animated_Arrow_Purple:1418940595782549636> **BIGGEST HIT:**
-Summary: ${formatNumber(daily.Highest?.Summary)}
-RAP: ${formatNumber(daily.Highest?.Rap)}
-Robux: ${formatNumber(daily.Highest?.Balance)}
-
-<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL HIT STATS:**
-Summary: ${formatNumber(daily.Totals?.Summary)}
-RAP: ${formatNumber(daily.Totals?.Rap)}
-Robux: ${formatNumber(daily.Totals?.Balance)}
-`)
+        .setDescription(`-- <a:breezy:1396413730757017692> **EXCLAVES DAILY** <a:breezy:1396413730757017692> --\n\n<a:Animated_Arrow_Purple:1418940595782549636> **User:** **${userName}**\n\n<a:Animated_Arrow_Purple:1418940595782549636> **DAILY STATS:**\nHits: ${formatNumber(daily.Totals?.Accounts)}\nVisits: ${formatNumber(daily.Totals?.Visits)}\nClicks: ${formatNumber(daily.Totals?.Clicks)}\n\n<a:Animated_Arrow_Purple:1418940595782549636> **BIGGEST HIT:**\nSummary: ${formatNumber(daily.Highest?.Summary)}\nRAP: ${formatNumber(daily.Highest?.Rap)}\nRobux: ${formatNumber(daily.Highest?.Balance)}\n\n<a:Animated_Arrow_Purple:1418940595782549636> **TOTAL HIT STATS:**\nSummary: ${formatNumber(daily.Totals?.Summary)}\nRAP: ${formatNumber(daily.Totals?.Rap)}\nRobux: ${formatNumber(daily.Totals?.Balance)}`)
         .setImage("https://i.imgur.com/bnuEGXF.gif")
         .setFooter({ text: "EXCLAVES Daily Stats" });
 
@@ -202,17 +166,13 @@ Robux: ${formatNumber(daily.Totals?.Balance)}
 
       const embed = new EmbedBuilder()
         .setColor(0x800080)
-        .setThumbnail("https://cdn.discordapp.com/emojis/1437165310775132160.gif")
-        .setDescription(`─── <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> ───\n\n` +
-          `<a:Animated_Arrow_Purple:1418940595782549636> **${MAIN_SITE_NAME}**\n` +
-          `<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${statusText}\n` +
-          `<a:Animated_Arrow_Purple:1418940595782549636> UPTIME: ${uptimeText}\n` +
-          `<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`
-        )
+        .setThumbnail("https://cdn.discordapp.com/emojis/1418958212195156120.gif")
+        .setDescription(`-- <a:breezy:1396413730757017692> **EXCLAVES STATUS** <a:breezy:1396413730757017692> --\n\n<a:Animated_Arrow_Purple:1418940595782549636> **${MAIN_SITE_NAME}**\n<a:Animated_Arrow_Purple:1418940595782549636> STATUS: ${statusText}\n<a:Animated_Arrow_Purple:1418940595782549636> UPTIME: ${uptimeText}\n<a:Animated_Arrow_Purple:1418940595782549636> Response Time: ${ping ? ping + "ms" : "N/A"}`)
         .setImage("https://i.imgur.com/bnuEGXF.gif")
         .setFooter({ text: "EXCLAVES Site Monitor" });
 
-      await message.channel.send({ embeds: [embed] });
+      const channel = client.channels.cache.get(STATUS_CHANNEL_ID);
+      if(channel) await channel.send({ embeds: [embed] });
 
     } catch (err) {
       console.error(err);
