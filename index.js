@@ -30,10 +30,26 @@ function formatDuration(ms) {
   return `${hr}h ${min}m ${sec}s`;
 }
 
+// 4.1️⃣ Helper fetch cu timeout
+async function fetchWithTimeout(url, options = {}, timeout = 10000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  options.signal = controller.signal;
+
+  try {
+    const res = await fetch(url, options);
+    return res;
+  } catch (err) {
+    throw new Error("Request timed out or failed");
+  } finally {
+    clearTimeout(id);
+  }
+}
+
 // 5️⃣ Config Uptime Monitor
 let lastUpTime = null;
 let lastStatus = null;
-const STATUS_CHANNEL_ID = "1437881455534674001";
+const STATUS_CHANNEL_ID = "1437881455534674001"; // canal de anunturi
 const MAIN_SITE_URL = "https://www.logged.tg/auth/exclaves";
 const MAIN_SITE_NAME = "EXECLAVES";
 
@@ -44,7 +60,7 @@ setInterval(async () => {
     let res, ping;
 
     try { 
-      const response = await fetch(MAIN_SITE_URL); 
+      const response = await fetchWithTimeout(MAIN_SITE_URL, {}, 10000);
       res = { ok: response.ok }; 
       ping = Date.now() - start; 
     } catch { 
@@ -57,7 +73,7 @@ setInterval(async () => {
     if (!res.ok) lastUpTime = null;
 
     if (currentStatus !== lastStatus) {
-      const channel = client.channels.cache.get(STATUS_CHANNEL_ID);
+      const channel = await client.channels.fetch(STATUS_CHANNEL_ID).catch(() => null);
       if (channel) {
         const embed = new EmbedBuilder()
           .setColor(0x800080)
@@ -74,7 +90,7 @@ setInterval(async () => {
         const statusMsg = currentStatus === "UP" 
           ? "✅ The site is back **UP**!" 
           : "⚠️ The site is **DOWN**!";
-        
+
         await channel.send({ content: statusMsg, embeds: [embed] });
       }
       lastStatus = currentStatus;
@@ -104,7 +120,7 @@ client.on('messageCreate', async (message) => {
   // ===== !stats =====
   if (message.content.startsWith('!stats')) {
     try {
-      const res = await fetch(`https://api.injuries.lu/v1/public/user?userId=${targetId}`);
+      const res = await fetchWithTimeout(`https://api.injuries.lu/v1/public/user?userId=${targetId}`, {}, 10000);
       const data = await res.json();
       if (!data.success || !data.Normal) return message.reply("❌ No stats found for this user.");
 
@@ -123,14 +139,14 @@ client.on('messageCreate', async (message) => {
 
     } catch (err) {
       console.error('Error fetching stats:', err);
-      message.reply("❌ Error fetching stats. Please try again later.");
+      message.reply("❌ Error fetching stats: site/API did not respond in 10 seconds.");
     }
   }
 
   // ===== !daily =====
   if (message.content.startsWith('!daily')) {
     try {
-      const res = await fetch(`https://api.injuries.lu/v2/daily?type=0x2&cs=3&ref=exclaves&userId=${targetId}`);
+      const res = await fetchWithTimeout(`https://api.injuries.lu/v2/daily?type=0x2&cs=3&ref=exclaves&userId=${targetId}`, {}, 10000);
       const data = await res.json();
       if (!data.success) return message.reply("❌ No daily stats available.");
 
@@ -149,7 +165,7 @@ client.on('messageCreate', async (message) => {
 
     } catch (err) {
       console.error('Error fetching daily stats:', err);
-      message.reply("❌ Error fetching daily stats. Please try again later.");
+      message.reply("❌ Error fetching daily stats: site/API did not respond in 10 seconds.");
     }
   }
 
@@ -158,8 +174,13 @@ client.on('messageCreate', async (message) => {
     try {
       const start = Date.now();
       let res, ping;
-      try { const response = await fetch(MAIN_SITE_URL); res = { ok: response.ok }; ping = Date.now() - start; } 
-      catch { res = { ok: false }; ping = null; }
+      try { 
+        const response = await fetchWithTimeout(MAIN_SITE_URL, {}, 10000);
+        res = { ok: response.ok };
+        ping = Date.now() - start;
+      } catch {
+        res = { ok: false }; ping = null;
+      }
 
       let statusText = res.ok ? "<a:Animated_Arrow_Purple:1418940595782549636> ONLINE" : "<a:Animated_Arrow_Purple:1418940595782549636> OFFLINE";
       let uptimeText = res.ok && lastUpTime ? `UP for ${formatDuration(Date.now() - lastUpTime)}` : "❌ No uptime data";
@@ -171,11 +192,12 @@ client.on('messageCreate', async (message) => {
         .setImage("https://i.imgur.com/bnuEGXF.gif")
         .setFooter({ text: "EXCLAVES Site Monitor" });
 
-      const channel = client.channels.cache.get(STATUS_CHANNEL_ID);
+      const channel = await client.channels.fetch(STATUS_CHANNEL_ID).catch(() => null);
       if(channel) await channel.send({ embeds: [embed] });
 
     } catch (err) {
       console.error(err);
+      message.reply("❌ Error checking site: site/API did not respond in 10 seconds.");
     }
   }
 
