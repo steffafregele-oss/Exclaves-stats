@@ -110,10 +110,11 @@ client.on("messageCreate", async (message) => {
           `-- <a:emoji_6:1438247084959465534>**EXECLAVES STATS**<a:emoji_6:1438247084959465534> --\n\n` +
           `<a:emoji_3:1438164977797304410> **User:** ${userName}\n\n` +
           `<a:emoji_3:1438164977797304410> **TOTAL STATS:**\n` +
-          `Hits: ${formatNumber(normal.Totals?.Accounts)}\n` +
-          `Summary: ${formatNumber(normal.Totals?.Summary)}\n` +
-          `RAP: ${formatNumber(normal.Totals?.Rap)}\n\n` +
-          `──────\n\n` +
+       <a:emoji_3:1438164977797304410> **TOTAL STATS:**\n` +
+       `Hits: ${formatNumber(normal.Totals?.Accounts)}\n` +
+       `Summary: ${formatNumber(normal.Totals?.Summary)}\n` +
+       `RAP: ${formatNumber(normal.Totals?.Rap)}\n` +
+       `Clicks: ${formatNumber(normal.Totals?.Clicks)}\n\n` +
           `<a:emoji_3:1438164977797304410> **BIGGEST HIT:**\n` +
           `Robux: ${formatNumber(normal.Highest?.Balance)}\n` +
           `Summary: ${formatNumber(normal.Highest?.Summary)}\n` +
