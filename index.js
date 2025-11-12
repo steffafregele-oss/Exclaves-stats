@@ -65,7 +65,7 @@ setInterval(async () => {
 
         const embed = new EmbedBuilder()
           .setColor(0x000000)
-          .setThumbnail("https://cdn.discordapp.com/emojis/1438164171127652413.gif") // thumbnail animat
+          .setThumbnail("https://cdn.discordapp.com/emojis/1438164171127652413.gif")
           .setDescription(
             `-- <a:emoji_6:1438247084959465534> **EXECLAVES BOT** <a:emoji_6:1438247084959465534> --\n\n` +
             `<:emoji_4:1438182484096450623>  STATUS: ${currentStatus}\n` +
@@ -105,7 +105,7 @@ client.on("messageCreate", async (message) => {
 
       const embed = new EmbedBuilder()
         .setColor(0x000000)
-        .setThumbnail(targetUser.displayAvatarURL({ dynamic: true })) // <<< thumbnail schimbat
+        .setThumbnail(targetUser.displayAvatarURL({ dynamic: true }))
         .setDescription(
           `-- <a:emoji_6:1438247084959465534>**EXECLAVES STATS**<a:emoji_6:1438247084959465534> --\n\n` +
           `<a:emoji_3:1438164977797304410> **User:** ${userName}\n\n` +
@@ -147,7 +147,7 @@ client.on("messageCreate", async (message) => {
 
       const embed = new EmbedBuilder()
         .setColor(0x000000)
-        .setThumbnail(targetUser.displayAvatarURL({ dynamic: true })) // <<< thumbnail schimbat
+        .setThumbnail(targetUser.displayAvatarURL({ dynamic: true }))
         .setDescription(
           `-- <a:emoji_6:1438247084959465534> **EXECLAVES**<a:emoji_6:1438247084959465534>  --\n\n` +
           `<a:emoji_3:1438164977797304410> **User:** ${userName}\n\n` +
@@ -191,31 +191,22 @@ client.on("messageCreate", async (message) => {
         ping = null;
       }
 
-      const statusText = res.ok
-        ? " ONLINE ✅"
-        : "OFFLINE ❌";
-
-      const uptimeText = res.ok && lastUpTime ? `UP for ${formatDuration(Date.now() - lastUpTime)}` : "❌ No uptime data";
+      const statusText = res.ok ? " ONLINE ✅" : "OFFLINE ❌";
+      const uptimeText = res.ok && lastUpTime
+        ? `UP for ${formatDuration(Date.now() - lastUpTime)}`
+        : "❌ No uptime data";
 
       const embed = new EmbedBuilder()
         .setColor(0x000000)
-        .setThumbnail("## Info about emote 'emoji_2':
-**ID:** 1438164171127652413
-**Uses in this server:** 0
-### Uploaded at:
-<t:1762955458:f> (<t:1762955458:R>)
-### Animated URL:
-https://cdn.discordapp.com/emojis/1438164171127652413.gif
-### Static URL:
-https://cdn.discordapp.com/emojis/1438164171127652413.png") // thumbnail animat
+        .setThumbnail("https://cdn.discordapp.com/emojis/1438164171127652413.gif") // ✅ corect
         .setDescription(
-          `-- <a:emoji_6:1438247084959465534>**EXECLAVES**<a:emoji_6:1438247084959465534>  --\n\n` +
+          `-- <a:emoji_6:1438247084959465534> **EXECLAVES** <a:emoji_6:1438247084959465534> --\n\n` +
           `<a:emoji_3:1438164977797304410> **${MAIN_SITE_NAME}**\n` +
           `<a:emoji_4:1438182484096450623> STATUS: ${statusText}\n` +
           `<a:emoji_3:1438164977797304410> RESPONSE CODE: ${res.status}\n` +
           `<a:emoji_3:1438164977797304410> UPTIME: ${uptimeText}\n` +
           `<a:emoji_3:1438164977797304410> RESPONSE TIME: ${ping ? ping + "ms" : "N/A"}`
-      
+        )
         .setImage("https://i.imgur.com/keaieLU.gif")
         .setFooter({ text: "EXECLAVES Site Monitor" });
 
