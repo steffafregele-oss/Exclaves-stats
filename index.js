@@ -202,7 +202,7 @@ client.on("messageCreate", async (message) => {
         .setDescription(
           `-- <a:emoji_6:1438247084959465534> **EXECLAVES** <a:emoji_6:1438247084959465534> --\n\n` +
           `<a:emoji_3:1438164977797304410> **${MAIN_SITE_NAME}**\n` +
-          `<a:emoji_4:1438182484096450623> STATUS: ${statusText}\n` +
+          `<:emoji_4:1438182484096450623> STATUS: ${statusText}\n` +
           `<a:emoji_3:1438164977797304410> RESPONSE CODE: ${res.status}\n` +
           `<a:emoji_3:1438164977797304410> UPTIME: ${uptimeText}\n` +
           `<a:emoji_3:1438164977797304410> RESPONSE TIME: ${ping ? ping + "ms" : "N/A"}`
