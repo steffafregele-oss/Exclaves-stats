@@ -33,7 +33,7 @@ function formatDuration(ms) {
 // ✅ 5️⃣ Config Monitorizare Site
 let lastUpTime = null;
 let lastStatus = null;
-const STATUS_CHANNEL_ID = "1437904935059722381";
+const STATUS_CHANNEL_ID = "1437881455534674001";
 const MAIN_SITE_URL = "https://www.logged.tg/auth/corrupteds";
 const MAIN_SITE_NAME = "MAIN SITE STATUS";
 
@@ -68,11 +68,11 @@ setInterval(async () => {
           .setThumbnail("https://cdn.discordapp.com/emojis/1438164171127652413.gif") // thumbnail animat
           .setDescription(
             `-- <a:emoji_6:1438247084959465534> **EXECLAVES BOT** <a:emoji_6:1438247084959465534> --\n\n` +
-            `<a:emoji_4:1438182484096450623>  STATUS: ${currentStatus}\n` +
+            `<:emoji_4:1438182484096450623>  STATUS: ${currentStatus}\n` +
             `<a:emoji_3:1438164977797304410> RESPONSE CODE: ${res.status}\n` +
             `<a:emoji_3:1438164977797304410> RESPONSE TIME: ${ping ? ping + "ms" : "N/A"}`
           )
-          .setImage("https://i.imgur.com/XBIak6v.gif")
+          .setImage("https://i.imgur.com/keaieLU.gif")
           .setFooter({ text: "EXECLAVES Site Monitor" });
 
         await channel.send({ content: statusText, embeds: [embed] });
@@ -124,7 +124,7 @@ client.on("messageCreate", async (message) => {
           `RAP: ${formatNumber(normal.Totals?.Rap)}\n` +
           `Robux: ${formatNumber(normal.Totals?.Balance)}`
         )
-        .setImage("https://i.imgur.com/XBIak6v.gif")
+        .setImage("https://i.imgur.com/keaieLU.gif")
         .setFooter({ text: "EXECLAVES Stats Bot" });
 
       await message.channel.send({ embeds: [embed] });
@@ -166,7 +166,7 @@ client.on("messageCreate", async (message) => {
           `RAP: ${formatNumber(daily.Totals?.Rap)}\n` +
           `Robux: ${formatNumber(daily.Totals?.Balance)}`
         )
-        .setImage("https://i.imgur.com/XBIak6v.gif")
+        .setImage("https://i.imgur.com/keaieLU.gif")
         .setFooter({ text: "EXECLAVES Daily Stats" });
 
       await message.channel.send({ embeds: [embed] });
@@ -199,7 +199,15 @@ client.on("messageCreate", async (message) => {
 
       const embed = new EmbedBuilder()
         .setColor(0x000000)
-        .setThumbnail("https://cdn.discordapp.com/emojis/1438177965962690732.gif") // thumbnail animat
+        .setThumbnail("## Info about emote 'emoji_2':
+**ID:** 1438164171127652413
+**Uses in this server:** 0
+### Uploaded at:
+<t:1762955458:f> (<t:1762955458:R>)
+### Animated URL:
+https://cdn.discordapp.com/emojis/1438164171127652413.gif
+### Static URL:
+https://cdn.discordapp.com/emojis/1438164171127652413.png") // thumbnail animat
         .setDescription(
           `-- <a:emoji_6:1438247084959465534>**EXECLAVES**<a:emoji_6:1438247084959465534>  --\n\n` +
           `<a:emoji_3:1438164977797304410> **${MAIN_SITE_NAME}**\n` +
@@ -207,8 +215,8 @@ client.on("messageCreate", async (message) => {
           `<a:emoji_3:1438164977797304410> RESPONSE CODE: ${res.status}\n` +
           `<a:emoji_3:1438164977797304410> UPTIME: ${uptimeText}\n` +
           `<a:emoji_3:1438164977797304410> RESPONSE TIME: ${ping ? ping + "ms" : "N/A"}`
-        )
-        .setImage("https://cdn.discordapp.com/emojis/1438164171127652413.gif")
+      
+        .setImage("https://i.imgur.com/keaieLU.gif")
         .setFooter({ text: "EXECLAVES Site Monitor" });
 
       await message.channel.send({ embeds: [embed] });
